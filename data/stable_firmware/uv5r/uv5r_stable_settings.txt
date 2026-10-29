@@ -1,0 +1,121 @@
+# Baofeng UV-5R Extracted Settings
+group 'basic': {
+	abr:5
+	beep:True
+	mdfa:Frequency
+	mdfb:Frequency
+	roger:False
+	rxled:Blue
+	save:1:3
+	squelch:3
+	timeout:60 sec
+	txled:Orange
+	wtled:Purple
+}
+group 'advanced': {
+	allrange:Default     
+	almod:Site
+	autolk:False
+	bcl:False
+	fmradio:True
+	menu:True
+	reset:True
+	rpste:5
+	rptrl:OFF
+	screv:TO
+	ste:True
+	tdr:False
+	tdrab:Off
+	voice:English
+	vox:OFF
+}
+group 'other': {
+	firmware_msg.line1:HN5RV01
+	firmware_msg.line2:1      
+	limits_new.uhf.enable:True
+	limits_new.uhf.lower:400
+	limits_new.uhf.upper:520
+	limits_new.vhf.enable:True
+	limits_new.vhf.lower:136
+	limits_new.vhf.upper:174
+	ponmsg:Message
+	poweron_msg.line1:WELCOME
+	poweron_msg.line2:       
+	sixpoweron_msg.line1:180618N
+	sixpoweron_msg.line2:       
+}
+group 'workmode': {
+	displayab:B
+	keylock:False
+	vfoa.freq:145.800000
+	vfoa.offset:0.000000  
+	vfoa.scode:1
+	vfoa.sftd:Off
+	vfoa.step:20.0
+	vfoa.txpower:High
+	vfoa.widenarr:Wide
+	vfob.freq:156.800000
+	vfob.offset:0.000000  
+	vfob.scode:1
+	vfob.sftd:Off
+	vfob.step:20.0
+	vfob.txpower:High
+	vfob.widenarr:Wide
+	wmchannel.mrcha:6
+	wmchannel.mrchb:1
+	workmode:Frequency
+}
+group 'dtmf': {
+	ani.alarmcode:119
+	ani.aniid:EOT
+	ani.code:80808
+	ani.dtmfoff:80 ms
+	ani.dtmfon:80 ms
+	dtmfst:DT+ANI
+	pttid/0.code:20202
+	pttid/1.code:
+	pttid/10.code:
+	pttid/11.code:
+	pttid/12.code:
+	pttid/13.code:
+	pttid/14.code:30303
+	pttid/2.code:
+	pttid/3.code:
+	pttid/4.code:
+	pttid/5.code:
+	pttid/6.code:
+	pttid/7.code:
+	pttid/8.code:
+	pttid/9.code:
+	pttlt:5
+}
+group 'service': {
+	squelch_new.uhf.sql0:0
+	squelch_new.uhf.sql1:14
+	squelch_new.uhf.sql2:15
+	squelch_new.uhf.sql3:16
+	squelch_new.uhf.sql4:17
+	squelch_new.uhf.sql5:18
+	squelch_new.uhf.sql6:19
+	squelch_new.uhf.sql7:20
+	squelch_new.uhf.sql8:21
+	squelch_new.uhf.sql9:22
+	squelch_new.vhf.sql0:0
+	squelch_new.vhf.sql1:21
+	squelch_new.vhf.sql2:23
+	squelch_new.vhf.sql3:25
+	squelch_new.vhf.sql4:27
+	squelch_new.vhf.sql5:29
+	squelch_new.vhf.sql6:30
+	squelch_new.vhf.sql7:31
+	squelch_new.vhf.sql8:32
+	squelch_new.vhf.sql9:33
+}
+
+# Memory Channels
+Memory 1: 140.125000/0.000000 FM () r88.5  c88.5  d023 NN [5.00]
+Memory 2: 145.225000/0.000000 FM () r88.5  c88.5  d023 NN [5.00]
+Memory 3: 150.325000/0.000000 FM () r88.5  c88.5  d023 NN [5.00]
+Memory 4: 440.125000/0.000000 FM () r88.5  c88.5  d023 NN [5.00]
+Memory 5: 445.225000/0.000000 FM () r88.5  c88.5  d023 NN [5.00]
+Memory 6: 450.325000/0.000000 FM () r88.5  c88.5  d023 NN [5.00]

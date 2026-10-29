@@ -1,0 +1,26 @@
+#
+# Linux udev rules for CSRA HAM & DMR Radio Automation Fleet
+# Install with:
+#   sudo cp udev/99-csra-radios.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules && sudo udevadm trigger
+#
+
+# BTECH DMR-6X2 / DMR-6X2 PRO & AnyTone AT-D868UV / AT-D878UV / AT-D878UVII (GD32 Virtual COM)
+SUBSYSTEM=="usb", ATTRS{idVendor}=="28e9", ATTRS{idProduct}=="018a", MODE="0666", GROUP="dialout", ENV{ID_MM_DEVICE_IGNORE}="1"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="28e9", ATTRS{idProduct}=="018a", MODE="0666", GROUP="dialout", SYMLINK+="dmr6x2pro", ENV{ID_MM_DEVICE_IGNORE}="1"
+
+# TYT MD-380 / MD-UV380 / MD-UV390 / Retevis RT3S (STM32 DFU Mode)
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE="0666", GROUP="dialout"
+
+# Baofeng RD-5R / TD-5R / DM-1801 / Radioddity GD-77 (HID Mode)
+SUBSYSTEM=="usb", ATTRS{idVendor}=="15a2", ATTRS{idProduct}=="0073", MODE="0666", GROUP="dialout"
+
+# Standard K-Plug Serial Programming Cables for Baofeng UV-5R / Quansheng UV-K5
+# WCH CH340 / CH341
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="0666", GROUP="dialout", ENV{ID_MM_DEVICE_IGNORE}="1"
+# FTDI FT232RL
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", MODE="0666", GROUP="dialout", ENV{ID_MM_DEVICE_IGNORE}="1"
+# Silicon Labs CP2102 / CP210x
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", MODE="0666", GROUP="dialout", ENV{ID_MM_DEVICE_IGNORE}="1"
+# Prolific PL2303
+SUBSYSTEM=="tty", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", MODE="0666", GROUP="dialout", ENV{ID_MM_DEVICE_IGNORE}="1"

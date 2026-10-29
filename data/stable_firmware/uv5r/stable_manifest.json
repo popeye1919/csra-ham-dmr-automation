@@ -1,0 +1,20 @@
+{
+  "radio_model": "Baofeng UV-5R",
+  "hardware_ident": "Baofeng_UV-5R",
+  "firmware_version": "HN5RV011",
+  "build_date": "180618N",
+  "extracted_at_utc": "2026-10-29T01:30:00.826667+00:00",
+  "source_mode": "cached_hardware_pull",
+  "image_path": "data/stable_firmware/uv5r/uv5r_stable_baseline.img",
+  "image_size_bytes": 6645,
+  "image_sha256": "e63f8ba45beb300129f770288f3bb16d13e1200848d7dde9901db0f29ebbedf6",
+  "config_path": "data/stable_firmware/uv5r/uv5r_stable_settings.txt",
+  "config_sha256": "545ac8ffa918ad7135e56c9e8c1621e246ba257fe1fa0d83177f519b8ef76d36",
+  "dmr_id": null,
+  "callsign": null,
+  "digital_channel_count": 0,
+  "analog_channel_count": 6,
+  "zone_count": 0,
+  "contact_count": 0,
+  "grouplist_count": 0
+}

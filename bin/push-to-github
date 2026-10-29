@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+"""
+Create (via GitHub API if GITHUB_TOKEN is set) and push csra-ham-dmr-automation
+to git@github.com:popeye1919/csra-ham-dmr-automation.git.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import subprocess
+import sys
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+
+REPO_NAME = "csra-ham-dmr-automation"
+GITHUB_USER = "popeye1919"
+SSH_REMOTE = f"git@github.com:{GITHUB_USER}/{REPO_NAME}.git"
+DESCRIPTION = (
+    "[2600 Hz // DE KR4JLC // --... ...--] Automated CHIRP & DMR Codeplug Phreaking "
+    "Suite for Augusta W4DV, CSRA DMR (TGIF/BM), BTECH DMR-6X2 PRO & Baofeng UV-5R "
+    "(Knights Who Say 73 Edition)"
+)
+
+
+def main() -> int:
+    repo_root = Path(__file__).resolve().parents[1]
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+
+    if token:
+        print(f"[*] Creating https://github.com/{GITHUB_USER}/{REPO_NAME} via GitHub REST API...")
+        payload = json.dumps(
+            {
+                "name": REPO_NAME,
+                "description": DESCRIPTION,
+                "private": False,
+                "has_issues": True,
+                "has_wiki": True,
+            }
+        ).encode("utf-8")
+        req = urllib.request.Request(
+            "https://api.github.com/user/repos",
+            data=payload,
+            headers={
+                "Authorization": f"Bearer {token.strip()}",
+                "Accept": "application/vnd.github+json",
+                "Content-Type": "application/json",
+                "User-Agent": "csra-ham-dmr-automation/1.0 (KR4JLC)",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                print(f"[+] Created repository: {data.get('html_url')}")
+        except urllib.error.HTTPError as e:
+            body = e.read().decode("utf-8", errors="replace")
+            if e.code == 422 and "already exists" in body:
+                print(f"[*] Repository {GITHUB_USER}/{REPO_NAME} already exists on GitHub.")
+            else:
+                print(f"[!] GitHub API HTTP {e.code}: {body}")
+                return 1
+
+    # Ensure origin points to git@github.com:popeye1919/csra-ham-dmr-automation.git
+    subprocess.run(["git", "-C", str(repo_root), "remote", "remove", "origin"], capture_output=True, check=False)
+    subprocess.run(["git", "-C", str(repo_root), "remote", "add", "origin", SSH_REMOTE], check=True)
+
+    print(f"[*] Pushing main branch to {SSH_REMOTE} ...")
+    res = subprocess.run(["git", "-C", str(repo_root), "push", "-u", "origin", "main"], check=False)
+    if res.returncode == 0:
+        print(f"\n[+] Success! Live at: https://github.com/{GITHUB_USER}/{REPO_NAME}")
+    else:
+        print(
+            f"\n[!] Remote repository does not exist yet on GitHub.\n"
+            f"    Option A (1-Click Browser): Open https://github.com/new?name={REPO_NAME} , click 'Create repository' (leave README unchecked), then re-run:\n"
+            f"      git -C {repo_root} push -u origin main\n"
+            f"    Option B (With Token): Run:\n"
+            f"      GITHUB_TOKEN=<your_pat> {repo_root}/bin/push-to-github"
+        )
+    return res.returncode
+
+
+if __name__ == "__main__":
+    sys.exit(main())

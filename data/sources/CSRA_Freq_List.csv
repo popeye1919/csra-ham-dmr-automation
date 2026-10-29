@@ -1,0 +1,109 @@
+Location,Name,Frequency,Duplex,Offset,Tone,rToneFreq,cToneFreq,DtcsCode,DtcsPolarity,Mode,TStep,Skip,Comment,URCALL,MYCALL,RPT1CALL,RPT2CALL
+1,W4DV,145.11,-,0.6000000000000227,TSQL,71.9,71.9,23,NN,FM,5.0,,"Repeater located at 1305 Georgia Avenue, North Augusta, SC 29841 on the WBBQ old Studio Tower, 71.9 CTCSS TSql added in and out on August 2, 2014",,,,
+2,ARCCC-H,145.13,-,0.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"07-01-2016 - In Progress.  Anticipated location is near Harlem, GA. Both the 145.130 and the 444.175 should be located together. Currenly the 444.175 is located with the 147.120 in Wrens, GA, however, as of February 2022 the 444.175 has been reallocated t",,,,
+3,ARCCC-A,145.19,-,0.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"Amateur Radio Club of Columbia County, Inc.
+07-26-2016 - Both the 145.190 and the 442.900 are located together.  Location is near Pollard's Corner in Appling, GA.",,,,
+4,AUG-S,145.29,-,0.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"South Augusta, CTCSS TSql operation on 71.9 In and out on October 1, 2014",,,,
+5,CH-5303,53.03,-,1.0,,88.5,88.5,23,NN,FM,5.0,,Oct. 2024 - Repeater antenna located on top of Elevated Water Tank at the corner of North Belair Road and Belair Drive.  222 N. Belair Road,,,,
+6,CH-4516,145.16,-,0.5999999999999943,TSQL,88.5,88.5,23,NN,FM,5.0,,"DSTAR Aiken Repeater in Analog Mode
+5 Seconds of dead air between modes before changing modes.  The Repeater is in Mixed Mode and will repeat the mode received.
+
+Repeater relocated to new Aiken Tower adjacent to ADPS Headquarters.  Antenna is 300'+.",,,,
+7,CH-4522,145.23,-,0.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"110 Tennis Court Circle, Waynesboro, GA  30830
+Burke Amateur Radio Club
+The repeater Transmits a 71.9 Hz tone at all times.  Rarely is the RX CTCSS activated on the repeater but when it is, due to interference, a 71.9 Hz tone is needed to access the repea",,,,
+8,CH-4535,145.35,-,0.5999999999999943,TSQL,156.7,156.7,23,NN,FM,5.0,,"Aiken Regional Medical Centers Roof, Aiken, SC
+Echolink Node 5764 | For those wishing to use the Echolink function, you may connect to a node by first identifying  ""[YOUR CALL] accessing Echolink"", and then entering the desired node number from your keypa",,,,
+9,CH-4538,145.39,-,0.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"Repeater located in Trenton, SC, CTCSS TSql operation of 71.9 on May 16, 2022.",,,,
+10,TOBACCO,444.35,+,5.0,TSQL,71.9,131.8,23,NN,FM,5.0,,Installed at Elevated Tank on Tobacco Road,,,,
+11,CH-4541,145.41,-,0.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"3651 Wheeler Road, Augusta, GA on roof of Doctors Hospital",,,,
+12,CH-4544,145.45,-,0.5999999999999943,TSQL,123.0,123.0,23,NN,FM,5.0,,"Savannah River Site near Jackson, SC
+C Road near Central Shops",,,,
+13,CH-4549,145.49,-,0.6000000000000227,TSQL,71.9,71.9,23,NN,FM,5.0,,"Repeater located in Trenton, SC, CTCSS TSql operation of 71.9 on November 1, 2014.",,,,
+14,CH-4663,146.64,-,0.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"The repeater Transmits a 71.9 Hz tone at all times. Rarely is the RX CTCSS activated on the repeater but when it is, due to interference, a 71.9 Hz tone is needed to access the repeater.",,,,
+15,CH-4672,146.73,-,0.5999999999999943,,88.5,88.5,23,NN,FM,5.0,,"Water Tower at the corner of Courtney Drive and Wells Road, North Augusta, SC, Solar Powered and is turned off and on by timer due to operating off of batteries",,,,
+16,CH-4683,146.835,-,0.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"911 Public Safety Drive, Thomson, GA  30824 on the 911 Tower
+
+07-01-2016 - A Tone Squelch of 71.9 was implemented on July 1, 2016.
+
+Currently Off the Air.",,,,
+17,CH-4685,146.85,-,0.5999999999999943,TSQL,91.5,91.5,23,NN,FM,5.0,,"Edgefield, SCHEART - *38
+Located on the Edgefield County communications tower near city of Edgefield complete with Generator Power.",,,,
+18,CH-4698,146.985,-,0.6000000000000227,TSQL,71.9,71.9,23,NN,FM,5.0,,Repeater antenna located on top of Elevated Water Tank at the corner of North Belair Road and Belair Drive.  222 N. Belair Road,,,,
+19,CH-4703,147.03,+,0.5999999999999943,TSQL,156.7,156.7,23,NN,FM,5.0,,"Barnwell, SC
+Salkahatchie Amateur Radio Society
+Linked to SCHEART on 3 Day Holidays and during Emergencies",,,,
+20,CH-4712,147.12,+,0.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"01-19-2021 - Call Sign Changed to W4CDC and KT4N Removed
+
+04-01-2020 - Implementation of 71.9 Hz TSql
+Wrens, GA",,,,
+21,FAIRING,147.18,+,0.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"Fairington Elevated Tank, CTCSS operation on 71.9 In and out on September 1, 2014",,,,
+22,CH-4725,147.255,+,0.5999999999999943,Tone,123.0,88.5,23,NN,FM,5.0,,"Batesburg-Leesville, SC Town Municipal Elevated Tank at Hendrix Street and Highway #1 (East Columbia Avenue) with elevation of aproximately 125'.  Repeater Decode Tone may be defeated by transmitting DTMF of 123
+https://www.w4rrc.org/repeater.php",,,,
+23,CH-4728,147.285,+,0.5999999999999943,,88.5,88.5,23,NN,FM,5.0,,"Aiken Department of Public Safety Tower
+
+07-06-2023 - Back on the air with new cables and duplexer
+
+01-01-2017 - A new Bridgecom Repeater installed",,,,
+24,CH-4734,147.345,+,0.5999999999999943,TSQL,91.5,91.5,23,NN,FM,5.0,,"Beech Island, SCHEART, *42",,,,
+25,CH-2450,224.5,-,1.5999999999999943,TSQL,71.9,71.9,23,NN,FM,5.0,,"Operational in the Grovetown, GA Area",,,,
+26,CH-2466,224.66,-,1.5999999999999943,,88.5,88.5,23,NN,FM,5.0,,"Aiken, SC -1.6 Offset",,,,
+27,CH-2494,224.94,-,1.5999999999999943,,88.5,88.5,23,NN,FM,5.0,,"- 1.6 Offset
+
+Beleived to be off air.",,,,
+28,CH-4152,441.525,+,5.0,TSQL,91.5,91.5,23,NN,FM,5.0,,"Aiken, SCHEART, *58",,,,
+29,CH-4190,441.9,+,5.0,TSQL,123.0,123.0,23,NN,FM,5.0,,Hammond Circle at Columbia Road,,,,
+30,CH-4280,442.8,+,5.0,TSQL,71.9,71.9,23,NN,FM,5.0,,"Burke Amateur Radio Club
+The repeater Transmits a 71.9 Hz tone at all times.  Rarely is the RX CTCSS activated on the repeater but when it is, due to interference, a 71.9 Hz tone is needed to access the repeater.",,,,
+31,CH-4290,442.9,+,5.0,TSQL,71.9,71.9,23,NN,FM,5.0,,"Amateur Radio Club of Columbia County, Inc.
+07-26-2016 - Both the 442.900 and the 145.190 are located together. Location is near Pollard's Corner in Appling, GA.",,,,
+32,CH-4312,443.125,+,5.0,TSQL,91.5,91.5,23,NN,FM,5.0,,"Beech Island, SCHEART, *62",,,,
+33,CH-4330,443.3,+,5.0,TSQL,71.9,88.5,23,NN,FM,5.0,,For HF Remote Capability please contact David for additional information,,,,
+34,CH-4341,443.4125,+,5.0,TSQL,88.5,88.5,23,NN,FM,5.0,,"DSTAR Aiken Repeater in Analog Mode
+5 Seconds of dead air between modes before changing modes.  The Repeater is in Mixed Mode and will repeat the mode received.",,,,
+35,CH-4390,443.9,+,5.0,TSQL,107.2,107.2,23,NN,FM,5.0,,"Greenwood, SC",,,,
+36,CH-4467,444.675,+,5.0,TSQL,71.9,71.9,23,NN,FM,5.0,,"3651 Wheeler Road, Augusta, GA on top of Doctors Hospital",,,,
+37,CH-4480,444.8,+,5.0,TSQL,146.2,146.2,23,NN,FM,5.0,,"Repeater located at 1305 Georgia Avenue, North Augusta, SC 29841 on the WBBQ old Studio Tower",,,,
+38,CH-4490,444.9,+,5.0,TSQL,88.5,88.5,23,NN,NFM,5.0,,"Repeater antenna located on top of Elevated Water Tank at the corner of North Belair Road and Belair Drive.  222 N. Belair Road
+TS1=TG358 (TGIF)
+TS2=TG985 (TGIF)",,,,
+39,CH-4495,444.95,+,5.0,TSQL,71.9,71.9,23,NN,FM,5.0,,"Repeater located in Trenton, SC, 71.9 CTCSS TSql Added in and out on August 2, 2014",,,,
+40,CH-2772,927.725,-,25.0,TSQL,71.9,71.9,23,NN,FM,5.0,,"Operational in the Grovetown, GA Area",,,,
+41,CH-2780,927.8,-,25.0,TSQL,146.2,146.2,23,NN,NFM,5.0,,"Repeater located at 1305 Georgia Avenue, North Augusta, SC 29841 on the WBBQ old Studio Tower",,,,
+42,CH-4075,440.75,+,5.0,TSQL,156.7,156.7,23,NN,FM,5.0,,"SERA Coordinated FM Itinerant Voice Repeater
+25 KHz Spacing, 5MHz Split
+High In, Low Out
+
+Reserved for itinerant and short term use during a special event or emergency with no formal
+coordination required. Trustees/Owners are encouraged to notify their lo",,,,
+43,440750D,440.75,,0.0,TSQL,156.7,156.7,23,NN,FM,5.0,,"SERA Coordinated FM Itinerant Voice Repeater
+25 KHz Spacing, 5MHz Split
+High In, Low Out
+
+Reserved for itinerant and short term use during a special event or emergency with no formal
+coordination required. Trustees/Owners are encouraged to notify their lo",,,,
+44,CH-4080,440.8,+,5.0,TSQL,156.7,156.7,23,NN,FM,5.0,,"SERA Coordinated FM Itinerant Voice Repeater
+25 KHz Spacing, 5MHz Split
+High In, Low Out
+
+Reserved for itinerant and short term use during a special event or emergency with no formal
+coordination required. Trustees/Owners are encouraged to notify their lo",,,,
+45,440800D,440.8,,0.0,TSQL,156.7,156.7,23,NN,FM,5.0,,"SERA Coordinated FM Itinerant Voice Repeater
+25 KHz Spacing, 5MHz Split
+High In, Low Out
+
+Reserved for itinerant and short term use during a special event or emergency with no formal
+coordination required. Trustees/Owners are encouraged to notify their lo",,,,
+46,2835D,28.35,,0.0,,88.5,88.5,23,NN,FM,5.0,,CSRA Chat,,,,
+47,2960D,29.6,,0.0,,88.5,88.5,23,NN,FM,5.0,,National Simplex Frequency,,,,
+48,5252D,52.525,,0.0,,88.5,88.5,23,NN,FM,5.0,,National Simplex Frequency,,,,
+49,SIMPLEX,146.52,,0.0,Tone,100.0,88.5,23,NN,FM,5.0,,National Analog Simplex Calling Frequency,,,,
+50,147420D,147.42,,0.0,TSQL,82.5,82.5,23,NN,FM,5.0,,CSRA Simplex Frequency (Typically used for groups who are in close proximity to each other due to desensing of receivers when using repeater frequencies),,,,
+51,147465D,147.465,,0.0,TSQL,82.5,82.5,23,NN,FM,5.0,,CSRA Simplex Frequency (Typically used for crossband repeat to UHF),,,,
+52,146420D,146.42,,0.0,,88.5,88.5,23,NN,FM,5.0,,"AmRRON - The American Redoubt Radio Operators Network and The American Preparedness Radio Network (TAPRN)
+https://amrron.com/",,,,
+53,146550D,146.55,,0.0,,88.5,88.5,23,NN,FM,5.0,,"Ridge Amateur Radio Club Simplex Net
+https://www.w4rrc.org/nets.php",,,,
+54,446000D,446.0,,0.0,Tone,100.0,88.5,23,NN,FM,5.0,,National Analog Simplex Calling Frequency,,,,
+55,446800D,446.8,,0.0,TSQL,82.5,82.5,23,NN,FM,5.0,,CSRA Simplex Frequency (Typically used for groups who are in close proximity to each other due to desensing of receivers when using repeater frequencies),,,,
+56,446850D,446.85,,0.0,TSQL,82.5,82.5,23,NN,FM,5.0,,CSRA Simplex Frequency (Typically used for crossband repeat to VHF),,,,

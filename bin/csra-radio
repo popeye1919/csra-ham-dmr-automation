@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+"""Entrypoint wrapper for CSRA HAM & DMR Radio Automation CLI."""
+
+import os
+import sys
+from pathlib import Path
+
+repo_root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(repo_root / "src"))
+
+from csra_radio.cli import main
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "csra-ham-dmr-automation"
+version = "1.0.0"
+description = "Automated firmware extraction, repeater scraping, and CHIRP/DMR codeplug synthesis for Augusta W4DV & CSRA DMR nets (BTECH DMR-6X2 PRO & Baofeng UV-5R)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "d4rksp2rk (KR4JLC)", email = "KR4JLC@w4dv.club"}
+]
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.scripts]
+csra-radio = "csra_radio.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

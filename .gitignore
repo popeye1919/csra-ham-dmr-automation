@@ -1,0 +1,17 @@
+# Python & build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+build/
+dist/
+
+# C build objects & temporary dmrconfig verification files
+*.o
+*.d
+*~
+.verify_tmp/
+backup.img
+device.img

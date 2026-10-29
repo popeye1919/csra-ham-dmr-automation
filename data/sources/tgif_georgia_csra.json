@@ -1,0 +1,240 @@
+{
+  "tgif_portal": "https://tgif.network/signin.php",
+  "static_tg_api_endpoint": "https://api.tgif.network/v1/static-talkgroups/3221824",
+  "static_tg_state": null,
+  "live_filtered_georgia_talkgroups": [],
+  "curated_csra_georgia_talkgroups": [
+    {
+      "dmr_id": 31665,
+      "name_16": "31665_TGIF_ALL",
+      "full_name": "TGIF Mothership All Call",
+      "call_type": "Group",
+      "network": "TGIF",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 358,
+      "name_16": "358_CSRA_TALK",
+      "full_name": "CSRA Talkgroup (Augusta/SC)",
+      "call_type": "Group",
+      "network": "TGIF",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 43389,
+      "name_16": "43389_SE_LINK",
+      "full_name": "SouthEast Link Multi-Mode",
+      "call_type": "Group",
+      "network": "TGIF",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 9050,
+      "name_16": "9050_EastC_Ref",
+      "full_name": "East Coast Reflector",
+      "call_type": "Group",
+      "network": "TGIF",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 985,
+      "name_16": "985_K4KNS",
+      "full_name": "K4KNS Columbia County Repeater",
+      "call_type": "Group",
+      "network": "TGIF",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 8014,
+      "name_16": "CSRA_PT1_Wx",
+      "full_name": "CSRA Weather Alert PT1",
+      "call_type": "Group",
+      "network": "TGIF",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 8044,
+      "name_16": "CSRA_PT2_Wx",
+      "full_name": "CSRA Weather Alert PT2",
+      "call_type": "Group",
+      "network": "TGIF",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 31000,
+      "name_16": "PARROT",
+      "full_name": "TGIF Parrot Audio Test",
+      "call_type": "Group",
+      "network": "TGIF",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 9,
+      "name_16": "9_LOCAL_SG",
+      "full_name": "Local / Vidalia Supergroup TS1/TS2",
+      "call_type": "Group",
+      "network": "Vidalia_SG",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 310592,
+      "name_16": "310592_VIDALIA",
+      "full_name": "Vidalia Supergroup BM Bridge",
+      "call_type": "Group",
+      "network": "Vidalia_SG",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 3113,
+      "name_16": "3113_GA_STATE",
+      "full_name": "Georgia Statewide (TGIF & BM)",
+      "call_type": "Group",
+      "network": "Georgia",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 31130,
+      "name_16": "31130_GA_ARES",
+      "full_name": "Georgia ARES Emergency Net",
+      "call_type": "Group",
+      "network": "Georgia",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 31134,
+      "name_16": "31134_N_GEORGIA",
+      "full_name": "North Georgia / AmComm Bridge",
+      "call_type": "Group",
+      "network": "Georgia",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 31137,
+      "name_16": "31137_KINGSLND",
+      "full_name": "Kingsland Digital Link (Camden GA)",
+      "call_type": "Group",
+      "network": "Georgia",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 314722,
+      "name_16": "314722_CSRA_MM",
+      "full_name": "CSRA Multi-Mode Net Bridge",
+      "call_type": "Group",
+      "network": "Georgia",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 3445,
+      "name_16": "3445_GA_RADIO",
+      "full_name": "Georgia Radio TGIF",
+      "call_type": "Group",
+      "network": "Georgia",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 14679,
+      "name_16": "14679_FOLKSTON",
+      "full_name": "Folkston GA Repeater TGIF",
+      "call_type": "Group",
+      "network": "Georgia",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 2,
+      "name_16": "2_PRN_FC_WIDE",
+      "full_name": "PRN Wide / First Coast DMR TS2",
+      "call_type": "Group",
+      "network": "SCHEART_PRN",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 27500,
+      "name_16": "27500_PRN_LOC",
+      "full_name": "SCHEART PRN Local TS1",
+      "call_type": "Group",
+      "network": "SCHEART_PRN",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 27501,
+      "name_16": "27501_PRN_CHT1",
+      "full_name": "SCHEART PRN Chat 1",
+      "call_type": "Group",
+      "network": "SCHEART_PRN",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 27502,
+      "name_16": "27502_PRN_CHT2",
+      "full_name": "SCHEART PRN Chat 2",
+      "call_type": "Group",
+      "network": "SCHEART_PRN",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 27510,
+      "name_16": "27510_SC_CALL",
+      "full_name": "South Carolina Statewide Call",
+      "call_type": "Group",
+      "network": "SCHEART_PRN",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 99,
+      "name_16": "99_DMR_SIMPLEX",
+      "full_name": "National DMR Simplex TG99",
+      "call_type": "Group",
+      "network": "Simplex",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 9998,
+      "name_16": "9998_PRN_ECHO",
+      "full_name": "PRN Echotest Server",
+      "call_type": "Group",
+      "network": "SCHEART_PRN",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 36102,
+      "name_16": "36102_PRN_DATA",
+      "full_name": "PRN Data Channel",
+      "call_type": "Group",
+      "network": "SCHEART_PRN",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 3145,
+      "name_16": "3145_SC_STATE",
+      "full_name": "South Carolina Statewide BM",
+      "call_type": "Group",
+      "network": "BrandMeister",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 3100,
+      "name_16": "3100_USA_NATION",
+      "full_name": "USA Nationwide BM/TGIF",
+      "call_type": "Group",
+      "network": "BrandMeister",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 91,
+      "name_16": "91_WORLDWIDE",
+      "full_name": "Worldwide Calling",
+      "call_type": "Group",
+      "network": "BrandMeister",
+      "rx_tone": "-"
+    },
+    {
+      "dmr_id": 9990,
+      "name_16": "9990_BM_PARROT",
+      "full_name": "BrandMeister Parrot Private/Group",
+      "call_type": "Group",
+      "network": "BrandMeister",
+      "rx_tone": "-"
+    }
+  ]
+}

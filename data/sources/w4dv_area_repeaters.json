@@ -1,0 +1,77 @@
+{
+  "source_url": "https://w4dv.club/repeaters/area-repeaters/",
+  "authoritative_repeaters": [
+    {
+      "name": "W4DV_145.110",
+      "short_name": "W4DV110",
+      "rx_mhz": 145.11,
+      "tx_mhz": 144.51,
+      "rx_tone": 71.9,
+      "tx_tone": 71.9,
+      "bw": 25.0,
+      "callsign": "W4DV",
+      "location": "North Augusta, SC (WBBQ Tower)",
+      "notes": "ARCA Primary 2m Repeater | CSRA Nightly Traditions Net 8PM | EchoLink W4DV-L"
+    },
+    {
+      "name": "W4DV_145.290",
+      "short_name": "W4DV290",
+      "rx_mhz": 145.29,
+      "tx_mhz": 144.69,
+      "rx_tone": 71.9,
+      "tx_tone": 71.9,
+      "bw": 25.0,
+      "callsign": "W4DV",
+      "location": "South Augusta, GA",
+      "notes": "ARCA South Augusta 2m Repeater (Trustee: W4IXI)"
+    },
+    {
+      "name": "W4DV_145.390",
+      "short_name": "W4DV390",
+      "rx_mhz": 145.39,
+      "tx_mhz": 144.79,
+      "rx_tone": 71.9,
+      "tx_tone": 71.9,
+      "bw": 25.0,
+      "callsign": "W4DV",
+      "location": "Trenton, SC",
+      "notes": "ARCA Trenton 2m | Ham Radio 101 Net Thu 9PM & CSRA Multi-Mode Sat 8PM"
+    },
+    {
+      "name": "W4DV_145.490",
+      "short_name": "W4DV490",
+      "rx_mhz": 145.49,
+      "tx_mhz": 144.89,
+      "rx_tone": 71.9,
+      "tx_tone": 71.9,
+      "bw": 25.0,
+      "callsign": "W4DV",
+      "location": "Trenton, SC",
+      "notes": "CSRA SKYWARN Emergency Net & Aiken ERC Net Wed 9PM | EchoLink W4DV-R"
+    },
+    {
+      "name": "W4DV_147.180",
+      "short_name": "W4DV180",
+      "rx_mhz": 147.18,
+      "tx_mhz": 147.78,
+      "rx_tone": 71.9,
+      "tx_tone": 71.9,
+      "bw": 25.0,
+      "callsign": "W4DV",
+      "location": "South Augusta, GA (Fairington Tank)",
+      "notes": "ARCA Fairington Elevated Tank 2m Repeater"
+    },
+    {
+      "name": "W4DV_444.950",
+      "short_name": "W4DV950",
+      "rx_mhz": 444.95,
+      "tx_mhz": 449.95,
+      "rx_tone": 71.9,
+      "tx_tone": 71.9,
+      "bw": 25.0,
+      "callsign": "W4DV",
+      "location": "Trenton, SC",
+      "notes": "ARCA 70cm Analog/Mixed Repeater (Trustee: W4IXI)"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "radio_model": "BTECH DMR-6X2 PRO",
+  "hardware_ident": "D6X2UV2",
+  "firmware_version": "24040800D0060110",
+  "build_date": "2024-4-12",
+  "extracted_at_utc": "2026-10-29T01:30:00.555365+00:00",
+  "source_mode": "cached_hardware_pull",
+  "image_path": "data/stable_firmware/dmr6x2_pro/dmr6x2pro_stable_baseline.img",
+  "image_size_bytes": 1606528,
+  "image_sha256": "8e54ba6be555378333410822a64bc303a9d4b470404deabb82696b529e795e91",
+  "config_path": "data/stable_firmware/dmr6x2_pro/dmr6x2pro_stable_baseline.conf",
+  "config_sha256": "77490c0da3d2309d49baa48e18fa8f6246e01e1c5b0b82bc144e0f6e2173ba13",
+  "dmr_id": 3221824,
+  "callsign": "KR4JLC",
+  "digital_channel_count": 39,
+  "analog_channel_count": 126,
+  "zone_count": 5,
+  "contact_count": 1018,
+  "grouplist_count": 4
+}
