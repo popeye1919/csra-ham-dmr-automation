@@ -19,6 +19,8 @@
 > **Callsign:** `KR4JLC` (`-.- .-. ....- .--- .-.. -.-.`) | **Handle:** `D4RKSP2RK` | **DMR ID:** `3221824`
 > **Target Hardware:** **BTECH DMR-6X2 PRO** (`D6X2UV2` / USB `28e9:018a`) & **Baofeng UV-5R** (`HN5RV011`)
 > **Theater of Operations:** Augusta, GA / Evans / Grovetown / North Augusta & Aiken, SC (**CSRA**)
+> **Windows Suite & Manual CHIRP Guide:** See **[`windows/README.md`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/README.md)** ([`Invoke-CsraChirp.ps1`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/Invoke-CsraChirp.ps1) & [`Run-CsraChirp.bat`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/Run-CsraChirp.bat))
+> **Official CHIRP Wiki Reference:** **[https://chirpmyradio.com/projects/chirp/wiki/Home](https://chirpmyradio.com/projects/chirp/wiki/Home)**
 > **Zine Companion:** Read [`PHRACK_CSRA_2600.nfo`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/PHRACK_CSRA_2600.nfo) for the full 1995 ASCII e-zine lore!
 
 ---
@@ -125,10 +127,28 @@ When we inspected the raw binary dump of the **BTECH DMR-6X2 PRO** (`D6X2UV2`, f
 ./bin/csra-radio morse "CQ CQ DE KR4JLC BRING US A SHRUBBERY 73"
 ./bin/csra-radio morse --decode "-.-. --.- / -.. . / -.- .-. ....- .--- .-.. -.-. / --... ...--"
 
-# 6. Flash to hardware when plugged into USB
+# 6. Flash to hardware when plugged into USB (ALWAYS pulls & SHA-256 verifies a pre-flash backup FIRST!)
 ./bin/csra-radio flash --radio btech --yes
 ./bin/csra-radio flash --radio uv5r --port /dev/ttyUSB0 --yes
 ```
+
+---
+
+## `0x05b` // Windows PowerShell Automation & Manual CHIRP Fallback (`windows/`)
+
+New to the club, running **Windows 10/11**, or need a step-by-step manual fallback using the **CHIRP GUI (`chirpw.exe`)**? Head straight to **[`windows/README.md`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/README.md)**!
+
+* **Mandatory Pre-Flash Backup Guard ("The Sacred Oath of Antioch"):** Both our Windows PowerShell script ([`windows/Invoke-CsraChirp.ps1`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/Invoke-CsraChirp.ps1)) and our Linux CLI ([`bin/csra-radio`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/bin/csra-radio)) **refuse to overwrite a radio** without **first** downloading a timestamped EEPROM backup (`windows\backups\<model>_pre_flash_<timestamp>.img` or `data/backups/`) and verifying its non-zero size + **SHA-256 hash** (`.manifest.json`).
+* **1-Click Interactive Menu ([`windows/Run-CsraChirp.bat`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/Run-CsraChirp.bat)):** Double-click on Windows to auto-detect COM ports, back up your radio, flash safely, restore from backup, or launch `chirpw.exe`.
+* **PowerShell CLI ([`windows/Invoke-CsraChirp.ps1`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/Invoke-CsraChirp.ps1)):**
+  ```powershell
+  .\windows\Invoke-CsraChirp.ps1 -Action Detect
+  .\windows\Invoke-CsraChirp.ps1 -Action Backup -ComPort COM4
+  .\windows\Invoke-CsraChirp.ps1 -Action Flash -ComPort COM4 -RadioModel Baofeng_UV-5R
+  .\windows\Invoke-CsraChirp.ps1 -Action Restore -ComPort COM4
+  .\windows\Invoke-CsraChirp.ps1 -Action LaunchGui
+  ```
+* **Manual CHIRP Fallback Guide ([`windows/README.md`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/README.md)):** Full walkthrough based on the **[Official CHIRP Wiki](https://chirpmyradio.com/projects/chirp/wiki/Home)** covering USB cable drivers (`FTDI` / `WCH CH340` vs. Counterfeit `Prolific PL2303` Code 10 fixes), the famous 2-pin Kenwood K1 click, downloading your radio's native `.img` backup first, and importing [`CSRA_W4DV_UV5R_CHIRP.csv`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/data/generated/chirp/CSRA_W4DV_UV5R_CHIRP.csv) safely across any UV-5R firmware version.
 
 ---
 

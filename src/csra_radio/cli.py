@@ -9,8 +9,11 @@ Command-line interface for CSRA HAM & DMR Radio Automation.
 from __future__ import annotations
 
 import argparse
+import datetime
+import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 from dataclasses import asdict
@@ -169,10 +172,38 @@ def cmd_build(args: argparse.Namespace) -> int:
     return 0
 
 
+def _record_pre_flash_backup_manifest(backup_img: Path, radio_type: str, source_port: str) -> Path:
+    """Verify non-empty pre-flash backup image and write a SHA-256 rollback manifest."""
+    if not backup_img.exists() or backup_img.stat().st_size == 0:
+        raise RuntimeError(
+            f"[ABORT] Pre-flash backup failed or produced a 0-byte file: {backup_img}. "
+            "Refusing to flash without a verified rollback image!"
+        )
+    digest = hashlib.sha256(backup_img.read_bytes()).hexdigest()
+    manifest_path = backup_img.with_suffix(".manifest.json")
+    manifest = {
+        "radio_type": radio_type,
+        "source_port": source_port,
+        "created_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "backup_file": str(backup_img),
+        "size_bytes": backup_img.stat().st_size,
+        "sha256": digest,
+        "cw_ack": encode_morse("QSL BACKUP OK 73"),
+    }
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    return manifest_path
+
+
 def cmd_flash(args: argparse.Namespace) -> int:
-    """Flash compiled codeplugs to connected BTECH DMR-6X2 PRO and/or Baofeng UV-5R."""
+    """
+    Flash compiled codeplugs to connected BTECH DMR-6X2 PRO and/or Baofeng UV-5R.
+    ALWAYS downloads and verifies a timestamped pre-flash backup image first!
+    """
     root = get_repo_root()
     dmrconfig_bin = root / "bin" / "dmrconfig"
+    backup_dir = root / "data" / "backups"
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     devices = scan_connected_radios()
 
     if args.radio in ("btech", "all"):
@@ -180,9 +211,22 @@ def cmd_flash(args: argparse.Namespace) -> int:
         img_path = root / "data" / "generated" / "dmrconfig" / "CSRA_W4DV_DMR6X2PRO.img"
         if not btech_devs:
             print(f"[!] BTECH DMR-6X2 PRO not detected on USB. Ready-to-flash image awaits at: {img_path}")
-            print(f"    Run manually when plugged in: {dmrconfig_bin} -w {img_path}")
+            print("    [MANDATORY SAFETY RULE] Always pull a backup FIRST before writing when plugged in:")
+            print(f"      1. {dmrconfig_bin} -r && mv device.img {backup_dir}/btech_pre_flash_{ts}.img")
+            print(f"      2. {dmrconfig_bin} -w {img_path}")
         else:
-            print(f"[*] Counting to Three (not Four, nor Two) and flashing {img_path} to {btech_devs[0].model}...")
+            pre_backup = backup_dir / f"btech_pre_flash_{ts}.img"
+            print(f"[*] [STEP 1/2: MANDATORY PRE-FLASH BACKUP] Pulling current image from {btech_devs[0].model}...")
+            subprocess.run([str(dmrconfig_bin), "-r"], cwd=str(backup_dir), check=True)
+            pulled_img = backup_dir / "device.img"
+            if pulled_img.exists():
+                shutil.move(str(pulled_img), str(pre_backup))
+            manifest_path = _record_pre_flash_backup_manifest(
+                pre_backup, "BTECH_DMR-6X2_PRO", btech_devs[0].tty_port or "usb:28e9:018a"
+            )
+            print(f"[+] Pre-flash backup locked & SHA-256 verified: {pre_backup} ({manifest_path.name})")
+
+            print(f"[*] [STEP 2/2: FLASH] Counting to Three (not Four, nor Two) and flashing {img_path}...")
             subprocess.run([str(dmrconfig_bin), "-w", str(img_path)], check=True)
             print("[+] BTECH DMR-6X2 PRO flash complete! Rejoice!")
 
@@ -191,12 +235,24 @@ def cmd_flash(args: argparse.Namespace) -> int:
         img_path = root / "data" / "generated" / "chirp" / "CSRA_W4DV_UV5R.img"
         if not uv5r_devs or not uv5r_devs[0].tty_port:
             print(f"[!] Baofeng UV-5R K-plug cable not detected on USB. Ready-to-flash image awaits at: {img_path}")
-            print(f"    Run manually when plugged in: chirpc -r Baofeng_UV-5R -s /dev/ttyUSB0 --mmap {img_path} --upload-mmap")
+            print("    [MANDATORY SAFETY RULE] Always download a backup FIRST before uploading when plugged in:")
+            print(f"      1. chirpc -r Baofeng_UV-5R -s {args.port} --mmap {backup_dir}/uv5r_pre_flash_{ts}.img --download-mmap")
+            print(f"      2. chirpc -r Baofeng_UV-5R -s {args.port} --mmap {img_path} --upload-mmap")
         else:
             port = uv5r_devs[0].tty_port
-            print(f"[*] Injecting 6,645 bytes of pure 90s phreak magic ({img_path}) into UV-5R on {port}...")
+            pre_backup = backup_dir / f"uv5r_pre_flash_{ts}.img"
             env = os.environ.copy()
             env["HOME"] = "/tmp"
+            print(f"[*] [STEP 1/2: MANDATORY PRE-FLASH BACKUP] Downloading current EEPROM from UV-5R on {port}...")
+            subprocess.run(
+                ["chirpc", "-r", "Baofeng_UV-5R", "-s", port, "--mmap", str(pre_backup), "--download-mmap"],
+                env=env,
+                check=True,
+            )
+            manifest_path = _record_pre_flash_backup_manifest(pre_backup, "Baofeng_UV-5R", port)
+            print(f"[+] Pre-flash backup locked & SHA-256 verified: {pre_backup} ({manifest_path.name})")
+
+            print(f"[*] [STEP 2/2: FLASH] Injecting 6,645 bytes of pure 90s phreak magic ({img_path}) into UV-5R on {port}...")
             subprocess.run(
                 ["chirpc", "-r", "Baofeng_UV-5R", "-s", port, "--mmap", str(img_path), "--upload-mmap"],
                 env=env,

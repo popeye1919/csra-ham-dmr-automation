@@ -6,7 +6,7 @@ import json
 import subprocess
 from pathlib import Path
 
-from csra_radio.cli import decode_morse, encode_morse
+from csra_radio.cli import _record_pre_flash_backup_manifest, decode_morse, encode_morse
 from csra_radio.detector import (
     inspect_btech_image_header,
     inspect_uv5r_image_metadata,
@@ -107,6 +107,47 @@ def test_morse_phreak_codec() -> None:
     assert decode_morse(cw) == msg
 
 
+def test_mandatory_pre_flash_backup_guard_and_windows_suite() -> None:
+    """Verify mandatory pre-flash backup verification and Windows PowerShell/CHIRP suite."""
+    import tempfile
+
+    # 1. Verify Windows directory artifacts exist and contain mandatory backup & CHIRP Wiki references
+    ps1_path = REPO_ROOT / "windows" / "Invoke-CsraChirp.ps1"
+    bat_path = REPO_ROOT / "windows" / "Run-CsraChirp.bat"
+    win_readme = REPO_ROOT / "windows" / "README.md"
+    assert ps1_path.exists()
+    assert bat_path.exists()
+    assert win_readme.exists()
+
+    ps1_text = ps1_path.read_text(encoding="utf-8")
+    assert "Invoke-MandatoryPreFlashBackup" in ps1_text
+    assert "--download-mmap" in ps1_text
+    assert "https://chirpmyradio.com/projects/chirp/wiki/Home" in ps1_text
+
+    win_readme_text = win_readme.read_text(encoding="utf-8")
+    assert "https://chirpmyradio.com/projects/chirp/wiki/Home" in win_readme_text
+    assert "Radio -> Download from radio" in win_readme_text
+
+    # 2. Verify _record_pre_flash_backup_manifest rejects missing or 0-byte backups
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp_path = Path(tmpdir)
+        empty_img = tmp_path / "empty.img"
+        empty_img.write_bytes(b"")
+        try:
+            _record_pre_flash_backup_manifest(empty_img, "Baofeng_UV-5R", "COM4")
+            raise AssertionError("Expected RuntimeError for 0-byte pre-flash backup!")
+        except RuntimeError:
+            pass
+
+        valid_img = tmp_path / "valid_pre_flash.img"
+        valid_img.write_bytes(b"CHIRP_EEPROM_BACKUP" * 350)
+        manifest_path = _record_pre_flash_backup_manifest(valid_img, "Baofeng_UV-5R", "COM4")
+        assert manifest_path.exists()
+        manifest_data = json.loads(manifest_path.read_text(encoding="utf-8"))
+        assert manifest_data["size_bytes"] == valid_img.stat().st_size
+        assert len(manifest_data["sha256"]) == 64
+
+
 if __name__ == "__main__":
     import sys
 
@@ -117,7 +158,8 @@ if __name__ == "__main__":
         test_catalog_contains_w4dv_and_csra_dmr_systems,
         test_generated_codeplug_binaries_verify_cleanly,
         test_morse_phreak_codec,
+        test_mandatory_pre_flash_backup_guard_and_windows_suite,
     ):
         fn()
         print(f"[PASS] {fn.__name__}")
-    print("All 5 test suites passed!")
+    print("All 6 test suites passed!")
