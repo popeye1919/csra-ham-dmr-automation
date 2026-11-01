@@ -16,6 +16,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from dataclasses import asdict
 from pathlib import Path
 from typing import Dict
@@ -225,6 +226,13 @@ def cmd_flash(args: argparse.Namespace) -> int:
                 pre_backup, "BTECH_DMR-6X2_PRO", btech_devs[0].tty_port or "usb:28e9:018a"
             )
             print(f"[+] Pre-flash backup locked & SHA-256 verified: {pre_backup} ({manifest_path.name})")
+
+            print("[*] Waiting for BTECH DMR-6X2 PRO to complete post-read reboot cycle...")
+            for _ in range(25):
+                time.sleep(1.0)
+                if any(d.family == "anytone_btech_dmr" for d in scan_connected_radios()):
+                    time.sleep(2.0)
+                    break
 
             print(f"[*] [STEP 2/2: FLASH] Counting to Three (not Four, nor Two) and flashing {img_path}...")
             subprocess.run([str(dmrconfig_bin), "-w", str(img_path)], check=True)

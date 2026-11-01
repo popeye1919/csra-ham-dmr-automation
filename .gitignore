@@ -15,6 +15,7 @@ dist/
 .verify_tmp/
 backup.img
 device.img
+device.conf
 
 # Timestamped local pre-flash backups (keep directory structure via .gitkeep)
 windows/backups/*.img
@@ -22,3 +23,4 @@ windows/backups/*.manifest.json
 windows/backups/*.rdt
 data/backups/*.img
 data/backups/*.manifest.json
+data/backups/*.conf

@@ -363,6 +363,8 @@ def generate_btech_dmr6x2pro_artifacts(
     img_path = out_dir / "CSRA_W4DV_DMR6X2PRO.img"
 
     baseline_img = repo_root / "data" / "stable_firmware" / "dmr6x2_pro" / "dmr6x2pro_stable_baseline.img"
+    live_pull = repo_root / "data" / "backups" / "btech_pull_20261101_1844.img"
+    base_img_to_use = live_pull if live_pull.exists() else baseline_img
     baseline_conf = repo_root / "data" / "stable_firmware" / "dmr6x2_pro" / "dmr6x2pro_stable_baseline.conf"
     private_contacts = _extract_private_contacts_from_baseline(baseline_conf)
 
@@ -511,21 +513,33 @@ def generate_btech_dmr6x2pro_artifacts(
     def _fmt_list(nums: List[int]) -> str:
         return ",".join(str(n) for n in nums) if nums else "-"
 
-    # Zones Table
+    def _dedup_list(nums: List[int]) -> List[int]:
+        seen = set()
+        out = []
+        for n in nums:
+            if n not in seen:
+                seen.add(n)
+                out.append(n)
+        return out
+
+    all_repeaters = _dedup_list(zone_w4dv_analog + zone_csra_repeaters)
+
+    # Zones Table: Preserving the operator's preferred primary zones:
+    # 1. Digital, 2. Analog, 3. Repeaters, 4. Weather, followed by tactical sub-zones
     lines.extend(
         [
             "",
             "# Table of channel zones.",
             "Zone    Name             Channels",
-            f"    1   CSRA_TGIF_DMR    {_fmt_list(zone_csra_dmr)}",
-            f"    2   W4DV_Augusta     {_fmt_list(zone_csra_dmr[:12] + zone_w4dv_analog)}",
-            f"    3   GA_Vidalia_BM    {_fmt_list(zone_vidalia_bm)}",
-            f"    4   SCHEART_PRN_DMR  {_fmt_list(zone_scheart_prn)}",
-            f"    5   CSRA_Repeaters   {_fmt_list(zone_csra_repeaters)}",
-            f"    6   CSRA_Simplex     {_fmt_list(zone_simplex)}",
-            f"    7   Out_Of_Town      {_fmt_list(zone_out_of_town)}",
-            f"    8   NOAA_Weather     {_fmt_list(zone_weather)}",
-            f"    9   FRS_MURS         {_fmt_list(zone_frs_gmrs_murs)}",
+            f"    1   Digital          {_fmt_list(all_digital_chans)}",
+            f"    2   Analog           {_fmt_list(zone_frs_gmrs_murs + zone_simplex)}",
+            f"    3   Repeaters        {_fmt_list(all_repeaters)}",
+            f"    4   Weather          {_fmt_list(zone_weather)}",
+            f"    5   CSRA_TGIF_DMR    {_fmt_list(zone_csra_dmr)}",
+            f"    6   W4DV_Augusta     {_fmt_list(zone_csra_dmr[:12] + zone_w4dv_analog)}",
+            f"    7   GA_Vidalia_BM    {_fmt_list(zone_vidalia_bm)}",
+            f"    8   SCHEART_PRN_DMR  {_fmt_list(zone_scheart_prn)}",
+            f"    9   Out_Of_Town      {_fmt_list(zone_out_of_town)}",
         ]
     )
 
@@ -587,10 +601,10 @@ def generate_btech_dmr6x2pro_artifacts(
 
     conf_path.write_text("\n".join(lines), encoding="utf-8")
 
-    # Compile into binary .img starting from the stable DMR-6X2 PRO baseline image
+    # Compile into binary .img starting from the live DMR-6X2 PRO image
     # Note: dmrconfig -c <in.img> <in.conf> writes its output to 'device.img' in cwd
     subprocess.run(
-        [str(dmrconfig_bin), "-c", str(baseline_img), str(conf_path)],
+        [str(dmrconfig_bin), "-c", str(base_img_to_use), str(conf_path)],
         cwd=str(out_dir),
         capture_output=True,
         text=True,
