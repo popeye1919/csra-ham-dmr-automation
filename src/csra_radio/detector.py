@@ -41,6 +41,11 @@ KNOWN_USB_RADIOS: Dict[Tuple[str, str], Dict[str, str]] = {
         "model": "Baofeng UV-5R / Quansheng UV-K5 (FTDI FT232R Cable)",
         "protocol": "chirp_serial",
     },
+    ("0403", "6015"): {
+        "family": "kplug_serial",
+        "model": "Baofeng UV-5R / Quansheng UV-K5 (FTDI FT-X/FT230X Cable)",
+        "protocol": "chirp_serial",
+    },
     ("10c4", "ea60"): {
         "family": "kplug_serial",
         "model": "Baofeng UV-5R / Quansheng UV-K5 (SiLabs CP210x Cable)",

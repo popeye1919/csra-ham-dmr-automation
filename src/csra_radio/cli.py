@@ -244,20 +244,37 @@ def cmd_flash(args: argparse.Namespace) -> int:
             env = os.environ.copy()
             env["HOME"] = "/tmp"
             print(f"[*] [STEP 1/2: MANDATORY PRE-FLASH BACKUP] Downloading current EEPROM from UV-5R on {port}...")
-            subprocess.run(
+            # Note: chirpc upstream has an unconditional sys.exit(1) on --download-mmap and --upload-mmap
+            # even when successful, so we verify actual file creation / output instead of returncode.
+            proc_down = subprocess.run(
                 ["chirpc", "-r", "Baofeng_UV-5R", "-s", port, "--mmap", str(pre_backup), "--download-mmap"],
                 env=env,
-                check=True,
+                capture_output=True,
+                text=True,
             )
+            if not pre_backup.exists() or pre_backup.stat().st_size == 0:
+                print(proc_down.stdout)
+                print(proc_down.stderr)
+                raise RuntimeError(f"Failed to download pre-flash backup from UV-5R on {port}")
             manifest_path = _record_pre_flash_backup_manifest(pre_backup, "Baofeng_UV-5R", port)
             print(f"[+] Pre-flash backup locked & SHA-256 verified: {pre_backup} ({manifest_path.name})")
 
+            # Allow UV-5R microcontroller to complete post-read EEPROM reboot cycle before sending ident magic again
+            print("[*] Waiting 3 seconds for UV-5R MCU post-read reboot cycle to settle...")
+            time.sleep(3.0)
+
             print(f"[*] [STEP 2/2: FLASH] Injecting 6,645 bytes of pure 90s phreak magic ({img_path}) into UV-5R on {port}...")
-            subprocess.run(
+            proc_up = subprocess.run(
                 ["chirpc", "-r", "Baofeng_UV-5R", "-s", port, "--mmap", str(img_path), "--upload-mmap"],
                 env=env,
-                check=True,
+                capture_output=True,
+                text=True,
             )
+            combined_out = (proc_up.stdout or "") + (proc_up.stderr or "")
+            if "Upload successful" not in combined_out and "100.0%" not in combined_out and proc_up.returncode != 0:
+                print(proc_up.stdout)
+                print(proc_up.stderr)
+                raise RuntimeError(f"Failed to flash CSRA image to UV-5R on {port}")
             print("[+] Baofeng UV-5R flash complete! Bring out your HTs!")
 
     return 0
