@@ -325,7 +325,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--dmr-id", type=int, default=3221824, help="Operator DMR Radio ID (default: 3221824)")
     parser.add_argument("--callsign", type=str, default="KR4JLC", help="Operator Callsign (default: KR4JLC)")
-    parser.add_argument("--intro1", type=str, default="Cory Singleton", help="Power-on Intro Line 1")
+    parser.add_argument("--intro1", type=str, default="D4rkSp2rk", help="Power-on Intro Line 1")
     parser.add_argument("--intro2", type=str, default="-", help="Power-on Intro Line 2")
     parser.add_argument("--tgif-token", type=str, default=None, help="Optional TGIF Static Talkgroup API Bearer Token")
     parser.add_argument("--no-banner", action="store_true", help="Suppress the 90s Phreak / Monty Python BBS banner")

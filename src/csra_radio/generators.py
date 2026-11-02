@@ -351,7 +351,7 @@ def generate_btech_dmr6x2pro_artifacts(
     talkgroups: List[TalkgroupSpec],
     dmr_id: int = 3221824,
     callsign: str = "KR4JLC",
-    intro_line1: str = "Cory Singleton",
+    intro_line1: str = "D4rkSp2rk",
     intro_line2: str = "-",
 ) -> Dict[str, str]:
     """
