@@ -9,7 +9,7 @@
  | \____|____/|_| \_\_/ \_\ |_|   |_| |_|_| \_\_____/_/   \_\_|\_\         |
  |-------------------------------------------------------------------------|
  |  * HACK THE PLANET (AND THE REPEATER INPUT OFFSET) *                    |
- |  * THE KNIGHTS WHO SAY "--... ...--" (73) // DE KR4JLC [ID: 3221824] *  |
+ |  * THE KNIGHTS WHO SAY "--... ...--" (73) // DE KR4JLC                  *  |
  |  * CW: -.-. --.-  -.. .  -.- .-. ....- .--- .-.. -.-.  -...-  -.-      |
  |  * "What... is the airspeed velocity of an unladen RF carrier?"         |
  |    "What do you mean? An African or an ITU Region 2 carrier?"           |
@@ -20,19 +20,19 @@
   <img src="docs/images/CSRA_Radio_Git.jpeg" alt="KR4JLC Ham Radio Shack & CSRA DMR Automation Terminal" width="100%">
 </p>
 
-> **Callsign:** `KR4JLC` (`-.- .-. ....- .--- .-.. -.-.`) | **Handle:** `D4RKSP2RK` | **DMR ID:** `3221824`
-> **Target Hardware:** **BTECH DMR-6X2 PRO** (`D6X2UV2` / USB `28e9:018a`) & **Baofeng UV-5R** (`HN5RV011`)
+> **Callsign:** `KR4JLC` (`-.- .-. ....- .--- .-.. -.-.`) | **Handle:** `D4RKSP2RK` | **DMR ID:** `[Configurable via CLI]`
+> **Target Hardware:** **BTECH DMR-6X2 PRO** (`D6X2UV2`) & **Baofeng UV-5R**
 > **Theater of Operations:** Augusta, GA / Evans / Grovetown / North Augusta & Aiken, SC (**CSRA**)
-> **Windows Suite & Manual CHIRP Guide:** See **[`windows/README.md`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/README.md)** ([`Invoke-CsraChirp.ps1`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/Invoke-CsraChirp.ps1) & [`Run-CsraChirp.bat`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/Run-CsraChirp.bat))
+> **Windows Suite & Manual CHIRP Guide:** See **[`windows/README.md`](windows/README.md)** ([`Invoke-CsraChirp.ps1`](windows/Invoke-CsraChirp.ps1) & [`Run-CsraChirp.bat`](windows/Run-CsraChirp.bat))
 > **Official CHIRP Wiki Reference:** **[https://chirpmyradio.com/projects/chirp/wiki/Home](https://chirpmyradio.com/projects/chirp/wiki/Home)**
-> **Zine Companion:** Read [`PHRACK_CSRA_2600.nfo`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/PHRACK_CSRA_2600.nfo) for the full 1995 ASCII e-zine lore!
+> **Zine Companion:** Read [`PHRACK_CSRA_2600.nfo`](PHRACK_CSRA_2600.nfo) for the full 1995 ASCII e-zine lore!
 
 ---
 
 ## `0x00` // What Is Thy Quest? (`--.- ..- . ... -`)
 
 Back in 1995, seizing a trunk line took a plastic Cap'n Crunch Bo'sun whistle resonating at **2600 Hz**, a soldering iron, a handful of crystals for a **Blue Box**, and a healthy fear of Ma Bell's security division. Today, licensed HAMs are the legal heirs to the phreaking underground—except instead of whistling `2600 Hz` into a payphone handset, we:
-1. **Blue-Box the USB Bus:** Auto-detect connected **BTECH DMR-6X2 PRO** (`28e9:018a` GD32 CDC ACM) and **Baofeng UV-5R** (K-plug CH340/FTDI/CP210x) radios via non-destructive serial handshakes (`"PROGRAM"` $\rightarrow$ `"QX\x06"` $\rightarrow$ `"\x02"` $\rightarrow$ `"ID6X2UV2"`).
+1. **Blue-Box the USB Bus:** Auto-detect connected **BTECH DMR-6X2 PRO** and **Baofeng UV-5R** radios via standard programming interfaces using non-destructive serial handshakes (`"PROGRAM"` $\rightarrow$ `"QX\x06"` $\rightarrow$ `"\x02"` $\rightarrow$ `"ID6X2UV2"`).
 2. **Lock the Holy Hand Grenade Baseline:** Extract current firmware/EEPROM images (`1,606,528` bytes for DMR-6X2 PRO; `6,645` bytes for UV-5R), verify round-trip compilation integrity, and seal them with **SHA-256 cryptographic manifests**.
 3. **Raid the Castle of Aaaaargh (Live CSRA Scraping):** Pull the latest repeater & talkgroup matrices from:
    * **Amateur Radio Club of Augusta (`W4DV`):** [`w4dv.club/repeaters/area-repeaters/`](https://w4dv.club/repeaters/area-repeaters/) & the official CSRA **ICS-217** 8-sheet frequency workbook.
@@ -46,7 +46,7 @@ Back in 1995, seizing a trunk line took a plastic Cap'n Crunch Bo'sun whistle re
 ```mermaid
 flowchart LR
     subgraph Detection["1. Beige-Box USB Probe & Baseline"]
-        USB["USB / Sysfs Trunk Scanner<br/>28e9:018a (GD32 Virtual COM)<br/>CH340 / FTDI / CP210x"] --> Probe["Serial Handshake ('PROGRAM')<br/>ACK: 'QX\\x06' -> 'ID6X2UV2'"]
+        USB["USB Serial Trunk Scanner<br/>Virtual COM Port / K-Plug Cable"] --> Probe["Serial Handshake ('PROGRAM')<br/>ACK: 'QX\\x06' -> 'ID6X2UV2'"]
         Probe --> Stabilize["Cryptographic Baseline<br/>SHA-256 + Round-Trip Check"]
     end
 
@@ -70,21 +70,21 @@ flowchart LR
 
 > *"First shalt thou take out the Holy Pin. Then shalt thou count to Color Code One, no more, no less. Color Code One shall be the number thou shalt count, and the number of the counting shall be One (unless thou art on K4KNS Belair Water Tank `444.900 MHz`, whereupon thou shalt proceed directly to Color Code Fifteen)."*
 
-When we inspected the raw binary dump of the **BTECH DMR-6X2 PRO** (`D6X2UV2`, firmware `24040800D0060110`), we uncovered a critical bug in upstream `dmrconfig`:
-1. In [`vendor/dmrconfig/radio.c`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/vendor/dmrconfig/radio.c), the USB/image signature `"D6X2UV2"` was previously aliased to `&radio_d878uv2` (AnyTone AT-D878UVII), whereas `radio_read_image()` matched the 6-byte prefix `"D6X2UV"` to `&radio_dmr6x2`.
-2. In [`vendor/dmrconfig/anytone_ht.c`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/vendor/dmrconfig/anytone_ht.c), the BTECH DMR-6X2 family stores **8 scanlist indices per channel** starting at `ch->aprs_channel`, whereas the AnyTone D878UV stores a single scanlist index at `ch->scan_list_index` (`offset +0x22`).
+When we inspected the raw binary dump of the **BTECH DMR-6X2 PRO** (`D6X2UV2`), we uncovered a critical bug in upstream `dmrconfig`:
+1. In [`vendor/dmrconfig/radio.c`](vendor/dmrconfig/radio.c), the USB/image signature `"D6X2UV2"` was previously aliased to `&radio_d878uv2` (AnyTone AT-D878UVII), whereas `radio_read_image()` matched the 6-byte prefix `"D6X2UV"` to `&radio_dmr6x2`.
+2. In [`vendor/dmrconfig/anytone_ht.c`](vendor/dmrconfig/anytone_ht.c), the BTECH DMR-6X2 family stores **8 scanlist indices per channel** starting at `ch->aprs_channel`, whereas the AnyTone D878UV stores a single scanlist index at `ch->scan_list_index` (`offset +0x22`).
 3. Because `get_scanlist_index()` and `setup_channel()` only checked `if (radio == &radio_dmr6x2)`, live operations against a `D6X2UV2` misread channel bytes as `Scanlist 1` and aborted compilation with **165 `scanlist 1 not found` errors** (*"It's just a flesh wound!"*).
 
-**Our Patch (`dmrconfig 1.1.259-pro`):** We defined [`radio_dmr6x2pro`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/vendor/dmrconfig/radio.h#L47) (`"BTECH DMR-6X2 PRO"`), mapped `"D6X2UV2"` to `&radio_dmr6x2pro` in [`radio.c`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/vendor/dmrconfig/radio.c), and updated [`anytone_ht.c`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/vendor/dmrconfig/anytone_ht.c) so both `radio_dmr6x2` and `radio_dmr6x2pro` use the 8-scanlist byte layout.
+**Our Patch (`dmrconfig 1.1.259-pro`):** We defined [`radio_dmr6x2pro`](vendor/dmrconfig/radio.h#L47) (`"BTECH DMR-6X2 PRO"`), mapped `"D6X2UV2"` to `&radio_dmr6x2pro` in [`radio.c`](vendor/dmrconfig/radio.c), and updated [`anytone_ht.c`](vendor/dmrconfig/anytone_ht.c) so both `radio_dmr6x2` and `radio_dmr6x2pro` use the 8-scanlist byte layout.
 
 ---
 
 ## `0x03` // Stabilized Hardware & Firmware Vault (`--... ...--`)
 
-| Radio | Hardware Magic / USB | Firmware / Build | Size (Bytes) | SHA-256 Digest | Vault Path |
+| Radio | Hardware Magic | Memory Architecture | Size (Bytes) | Integrity | Vault Path |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **BTECH DMR-6X2 PRO** | `D6X2UV2` (`28e9:018a`) | `24040800D0060110` (`2024-4-12`) | `1,606,528` | `8e54ba6be555...5e91` | [`data/stable_firmware/dmr6x2_pro/`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/data/stable_firmware/dmr6x2_pro/) |
-| **Baofeng UV-5R** | `BFS311` / CHIRP `UV-5R` | `HN5RV011` (`180618N`) | `6,645` | `2788557f103d...118f` | [`data/stable_firmware/uv5r/`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/data/stable_firmware/uv5r/) |
+| **BTECH DMR-6X2 PRO** | `D6X2UV2` | Extended SPI Flash Codeplug | `1,606,528` | `SHA-256 Sealed` | [`data/stable_firmware/dmr6x2_pro/`](data/stable_firmware/dmr6x2_pro/) |
+| **Baofeng UV-5R** | `BFS311` / CHIRP `UV-5R` | 128-Channel EEPROM Map | `6,645` | `SHA-256 Sealed` | [`data/stable_firmware/uv5r/`](data/stable_firmware/uv5r/) |
 
 ---
 
@@ -133,18 +133,18 @@ When we inspected the raw binary dump of the **BTECH DMR-6X2 PRO** (`D6X2UV2`, f
 
 # 6. Flash to hardware when plugged into USB (ALWAYS pulls & SHA-256 verifies a pre-flash backup FIRST!)
 ./bin/csra-radio flash --radio btech --yes
-./bin/csra-radio flash --radio uv5r --port /dev/ttyUSB0 --yes
+./bin/csra-radio flash --radio uv5r --port /dev/ttyUSBx --yes
 ```
 
 ---
 
 ## `0x05b` // Windows PowerShell Automation & Manual CHIRP Fallback (`windows/`)
 
-New to the club, running **Windows 10/11**, or need a step-by-step manual fallback using the **CHIRP GUI (`chirpw.exe`)**? Head straight to **[`windows/README.md`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/README.md)**!
+New to the club, running **Windows 10/11**, or need a step-by-step manual fallback using the **CHIRP GUI (`chirpw.exe`)**? Head straight to **[`windows/README.md`](windows/README.md)**!
 
-* **Mandatory Pre-Flash Backup Guard ("The Sacred Oath of Antioch"):** Both our Windows PowerShell script ([`windows/Invoke-CsraChirp.ps1`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/Invoke-CsraChirp.ps1)) and our Linux CLI ([`bin/csra-radio`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/bin/csra-radio)) **refuse to overwrite a radio** without **first** downloading a timestamped EEPROM backup (`windows\backups\<model>_pre_flash_<timestamp>.img` or `data/backups/`) and verifying its non-zero size + **SHA-256 hash** (`.manifest.json`).
-* **1-Click Interactive Menu ([`windows/Run-CsraChirp.bat`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/Run-CsraChirp.bat)):** Double-click on Windows to auto-detect COM ports, back up your radio, flash safely, restore from backup, or launch `chirpw.exe`.
-* **PowerShell CLI ([`windows/Invoke-CsraChirp.ps1`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/Invoke-CsraChirp.ps1)):**
+* **Mandatory Pre-Flash Backup Guard ("The Sacred Oath of Antioch"):** Both our Windows PowerShell script ([`windows/Invoke-CsraChirp.ps1`](windows/Invoke-CsraChirp.ps1)) and our Linux CLI ([`bin/csra-radio`](bin/csra-radio)) **refuse to overwrite a radio** without **first** downloading a timestamped EEPROM backup (`windows\backups\<model>_pre_flash_<timestamp>.img` or `data/backups/`) and verifying its non-zero size + **SHA-256 hash** (`.manifest.json`).
+* **1-Click Interactive Menu ([`windows/Run-CsraChirp.bat`](windows/Run-CsraChirp.bat)):** Double-click on Windows to auto-detect COM ports, back up your radio, flash safely, restore from backup, or launch `chirpw.exe`.
+* **PowerShell CLI ([`windows/Invoke-CsraChirp.ps1`](windows/Invoke-CsraChirp.ps1)):**
   ```powershell
   .\windows\Invoke-CsraChirp.ps1 -Action Detect
   .\windows\Invoke-CsraChirp.ps1 -Action Backup -ComPort COM4
@@ -152,7 +152,7 @@ New to the club, running **Windows 10/11**, or need a step-by-step manual fallba
   .\windows\Invoke-CsraChirp.ps1 -Action Restore -ComPort COM4
   .\windows\Invoke-CsraChirp.ps1 -Action LaunchGui
   ```
-* **Manual CHIRP Fallback Guide ([`windows/README.md`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/windows/README.md)):** Full walkthrough based on the **[Official CHIRP Wiki](https://chirpmyradio.com/projects/chirp/wiki/Home)** covering USB cable drivers (`FTDI` / `WCH CH340` vs. Counterfeit `Prolific PL2303` Code 10 fixes), the famous 2-pin Kenwood K1 click, downloading your radio's native `.img` backup first, and importing [`CSRA_W4DV_UV5R_CHIRP.csv`](file:///home/d4rksp2rk/Desktop/jarvis/csra-ham-dmr-automation/data/generated/chirp/CSRA_W4DV_UV5R_CHIRP.csv) safely across any UV-5R firmware version.
+* **Manual CHIRP Fallback Guide ([`windows/README.md`](windows/README.md)):** Full walkthrough based on the **[Official CHIRP Wiki](https://chirpmyradio.com/projects/chirp/wiki/Home)** covering USB cable drivers (`FTDI` / `WCH CH340` vs. Counterfeit `Prolific PL2303` Code 10 fixes), the famous 2-pin Kenwood K1 click, downloading your radio's native `.img` backup first, and importing [`CSRA_W4DV_UV5R_CHIRP.csv`](data/generated/chirp/CSRA_W4DV_UV5R_CHIRP.csv) safely across any UV-5R firmware version.
 
 ---
 
