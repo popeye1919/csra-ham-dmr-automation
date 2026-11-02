@@ -16,6 +16,10 @@
  `-------------------------------------------------------------------------'
 ```
 
+<p align="center">
+  <img src="docs/images/CSRA_Radio_Git.jpeg" alt="KR4JLC Ham Radio Shack & CSRA DMR Automation Terminal" width="100%">
+</p>
+
 > **Callsign:** `KR4JLC` (`-.- .-. ....- .--- .-.. -.-.`) | **Handle:** `D4RKSP2RK` | **DMR ID:** `3221824`
 > **Target Hardware:** **BTECH DMR-6X2 PRO** (`D6X2UV2` / USB `28e9:018a`) & **Baofeng UV-5R** (`HN5RV011`)
 > **Theater of Operations:** Augusta, GA / Evans / Grovetown / North Augusta & Aiken, SC (**CSRA**)
