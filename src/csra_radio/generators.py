@@ -576,19 +576,9 @@ def generate_btech_dmr6x2pro_artifacts(
             "Scanlist Name            PCh1 PCh2 TxCh Channels",
             "    1   Default_Scan     -    -    Sel  9-11,91,120",
             "",
-            "# Table of contacts.",
-            "Contact Name             Type    ID       RxTone",
-        ]
-    )
-    for c_idx, c_name, c_type, c_id, c_tone in contact_entries:
-        lines.append(f"{c_idx:5d}   {c_name:<16s} {c_type:<7s} {c_id:<8d} {c_tone}")
-
-    lines.extend(
-        [
-            "",
             "# Table of group lists.",
             "Grouplist Name                              Contacts",
-            "    1   Group_List_1                        1-3,5,1001-1008",
+            "    1   Group_List_1                        1",
             "",
             "# Table of text messages.",
             "Message Text",
