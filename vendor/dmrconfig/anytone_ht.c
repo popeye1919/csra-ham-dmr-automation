@@ -638,50 +638,53 @@ static void anytone_ht_upload(radio_device_t *radio, int cont_flag)
     //
     // Build and upload a map of IDs to contacts.
     // The map has to be sorted by ID.
+    // Only upload when cont_flag is set (i.e. contacts were explicitly configured).
     //
-    uint64_t map[8*NCONTACTS + 72];
-    int index, ncontacts = 0;
+    if (cont_flag) {
+        uint64_t map[8*NCONTACTS + 72];
+        int index, ncontacts = 0;
 
-    memset(map, 0xff, sizeof(map));
-    for (index=0; index<NCONTACTS; index++) {
-        contact_t *ct = get_contact(index);
-        if (!ct)
-            continue;
+        memset(map, 0xff, sizeof(map));
+        for (index=0; index<NCONTACTS; index++) {
+            contact_t *ct = get_contact(index);
+            if (!ct)
+                continue;
 
-        // A map entry consists of 8 bytes.
-        // Bit 0: set for groups.
-        // Bits 31-1: DMR ID of the contact.
-        // Bytes 4-7: contact index.
-        uint64_t item = ct->id[0] << 25 | ct->id[1] << 17 |
-                        ct->id[2] << 9 | ct->id[3] << 1;
-        if (ct->type == CALL_GROUP)
-            item |= 1;
-        item |= (uint64_t) index << 32;
+            // A map entry consists of 8 bytes.
+            // Bit 0: set for groups.
+            // Bits 31-1: DMR ID of the contact.
+            // Bytes 4-7: contact index.
+            uint64_t item = (uint64_t)ct->id[0] << 25 | (uint64_t)ct->id[1] << 17 |
+                            (uint64_t)ct->id[2] << 9 | (uint64_t)ct->id[3] << 1;
+            if (ct->type == CALL_GROUP)
+                item |= 1;
+            item |= (uint64_t) index << 32;
 
-        int k;
-        for (k=0; k<NCONTACTS; k++) {
-            if (map[k] == item) {
-                // The item is already in the list.
-                break;
-            }
-            if (map[k] == 0xffffffffffffffff) {
-                // Append to the end of the list.
-                map[k] = item;
-                ncontacts = k + 1;
-                break;
-            }
-            if ((uint32_t)map[k] > (uint32_t)item) {
-                // Insert item there and shift the rest.
-                uint64_t prev = map[k];
-                map[k] = item;
-                item = prev;
+            int k;
+            for (k=0; k<NCONTACTS; k++) {
+                if (map[k] == item) {
+                    // The item is already in the list.
+                    break;
+                }
+                if (map[k] == 0xffffffffffffffff) {
+                    // Append to the end of the list.
+                    map[k] = item;
+                    ncontacts = k + 1;
+                    break;
+                }
+                if ((uint32_t)map[k] > (uint32_t)item) {
+                    // Insert item there and shift the rest.
+                    uint64_t prev = map[k];
+                    map[k] = item;
+                    item = prev;
+                }
             }
         }
+        //printf("\n");
+        //print_hex((uint8_t*)map, ncontacts*8 + 8);
+        //printf("\n");
+        serial_write_region(ADDR_CONT_ID_LIST, (uint8_t*)map, (ncontacts*8 + 8 + 63) / 64 * 64);
     }
-    //printf("\n");
-    //print_hex((uint8_t*)map, ncontacts*8 + 8);
-    //printf("\n");
-    serial_write_region(ADDR_CONT_ID_LIST, (uint8_t*)map, (ncontacts*8 + 8 + 63) / 64 * 64);
 }
 
 //
@@ -2033,12 +2036,12 @@ static int zone_append(int index, int cnum)
             zlist[i] = cnum;
 
             if (i == 0) {
-                // Set A and B channels.
-                zchan_a[index] = cnum;
-                zchan_b[index] = cnum;
+                // Set A and B channels (index within zone channel list: i).
+                *zchan_a = i;
+                *zchan_b = i;
             } else if (i == 1) {
                 // Set B channel.
-                zchan_b[index] = cnum;
+                *zchan_b = i;
             }
             return 1;
         }

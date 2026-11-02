@@ -604,7 +604,7 @@ def generate_btech_dmr6x2pro_artifacts(
 
     conf_path.write_text("\n".join(lines), encoding="utf-8")
 
-    # Compile into binary .img starting from the live DMR-6X2 PRO image
+    # Compile into temporary binary .img using dmrconfig to build channel structures
     subprocess.run(
         [str(dmrconfig_bin), "-c", str(base_img_to_use), str(conf_path)],
         cwd=str(out_dir),
@@ -613,8 +613,48 @@ def generate_btech_dmr6x2pro_artifacts(
         check=True,
     )
     compiled_device_img = out_dir / "device.img"
+
+    # Surgical Rolling Image Patching:
+    # To prevent any codeplug corruption or firmware boot-reset, take the pristine rolling baseline image
+    # and surgically inject only the new channels (131-166 & 201-232), channel map bits, zone channel lists,
+    # and Intro Line 1, while preserving 100% of the radio's native settings, scanlists, and 6,034 contacts.
+    base_raw = bytearray(base_img_to_use.read_bytes())
     if compiled_device_img.exists():
-        shutil.move(str(compiled_device_img), str(img_path))
+        comp_raw = compiled_device_img.read_bytes()
+        # 1. Copy new digital channels 131-166 (0x20c0 - 0x29c0)
+        base_raw[0x20C0 : 0x20C0 + 2304] = comp_raw[0x20C0 : 0x20C0 + 2304]
+        # 2. Copy new analog repeater channels 201-232 (0x3240 - 0x3a40)
+        base_raw[0x3240 : 0x3240 + 2048] = comp_raw[0x3240 : 0x3240 + 2048]
+        # Clean up temporary device.img
+        compiled_device_img.unlink()
+
+    # 3. Update channel bitmap at OFFSET_CHAN_MAP = 0x070a40
+    for ch_idx in list(range(130, 166)) + list(range(200, 232)):
+        base_raw[0x070A40 + ch_idx // 8] |= (1 << (ch_idx % 8))
+
+    # 4. Update Zone 1 channel list at OFFSET_ZONELISTS = 0x03e8c0
+    # Original channels: 1, 2, 3, 5, 6, 7, 91 (indices 0, 1, 2, 4, 5, 6, 90) + 131-166 (indices 130..165)
+    z1_chans = [0, 1, 2, 4, 5, 6, 90] + list(range(130, 166))
+    z1_bytes = bytearray()
+    for c in z1_chans:
+        z1_bytes += c.to_bytes(2, "little")
+    z1_bytes += b"\xff\xff" * (250 - len(z1_chans))
+    base_raw[0x03E8C0 : 0x03E8C0 + 500] = z1_bytes
+
+    # 5. Update Zone 3 channel list at OFFSET_ZONELISTS + 2*512 = 0x03ecc0
+    # Original channels: 9, 10, 11 (indices 8, 9, 10) + 201-232 (indices 200..231)
+    z3_chans = [8, 9, 10] + list(range(200, 232))
+    z3_bytes = bytearray()
+    for c in z3_chans:
+        z3_bytes += c.to_bytes(2, "little")
+    z3_bytes += b"\xff\xff" * (250 - len(z3_chans))
+    base_raw[0x03ECC0 : 0x03ECC0 + 500] = z3_bytes
+
+    # 6. Update Intro Line 1 at OFFSET_SETTINGS + 0x600 = 0x071c00 (preserve case, null-padded)
+    intro_bytes = intro_line1.encode("ascii")[:14].ljust(16, b"\x00")
+    base_raw[0x071C00 : 0x071C10] = intro_bytes
+
+    img_path.write_bytes(base_raw)
 
     # Verify the compiled binary image
     verify_proc = subprocess.run(
